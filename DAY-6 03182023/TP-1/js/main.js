@@ -36,10 +36,14 @@ demo.split("#")
 /*************************************************************** */
 
 const noteElement = document.getElementById("note");
+const coffElement = document.getElementById("coff");
+
+
+
 const resultElement = document.getElementById("result");
 const listNotes = document.getElementById("list-notes");
 
-var notes = [];
+var notes = []; // { note:12, coff:3 },{note:13,coff:2}...
     
 
 
@@ -47,9 +51,9 @@ function showNotes(){
     let blocHTML = '';
 
     for (let i = 0; i < notes.length; i++) {
-        const note = notes[i];
+        const obj = notes[i];
         
-        const tmp = '<li>'+note+'</li>';
+        const tmp = '<li>'+obj.note+' / '+ obj.coff +'</li>';
 
         blocHTML = blocHTML + tmp;
     }
@@ -63,10 +67,14 @@ function ajouter(){
     
     if (noteElement.value != '') {
 
-        const note = Number(noteElement.value); 
-        notes.push(note); 
+        const note = Number(noteElement.value);
+        const coff = Number(coffElement.value);
+         
+        notes.push({ "note": note, "coff": coff }); 
 
         noteElement.value='';
+        coffElement.value='';
+        
 
         showNotes();
 
@@ -78,12 +86,15 @@ function ajouter(){
 
 function calculer(){
     let somme = 0;
+    let coffs = 0;
+    
 
     for (let i = 0; i < notes.length; i++) {
-        somme+= notes[i]; 
+        somme+= notes[i].note ; 
+        coffs+=notes[i].coff;
     }
 
-    const moy = (somme / notes.length);
+    const moy = (somme / coffs);
 
     resultElement.innerHTML='Moy = '+moy;
 
